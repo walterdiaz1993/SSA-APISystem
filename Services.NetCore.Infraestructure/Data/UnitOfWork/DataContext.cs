@@ -16,7 +16,7 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
 
         public DataContext()
         {
-                
+
         }
 
         public void AddDynamicDbSet(ModelBuilder modelBuilder)
@@ -149,18 +149,12 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
         private void ApplyTransactionInfo(TransactionInfo transaction, EntityEntry entry)
         {
             ((BaseEntity)entry.Entity).TransactionDate = DateTime.Now;
-            ((BaseEntity)entry.Entity).TransactionDescription = entry.State.ToString();
             ((BaseEntity)entry.Entity).ModifiedBy = transaction.ModifiedBy;
 
             if (!((BaseEntity)entry.Entity).CreationDate.HasValue)
             {
                 ((BaseEntity)entry.Entity).CreationDate = DateTime.Now;
             }
-
-
-            AplicarInformacionTransaccion(entry, "TransactionType", transaction.TransactionType);
-            AplicarInformacionTransaccion(entry, "TransactionUId", transaction.TransactionUId);
-            AplicarInformacionTransaccion(entry, "TransactionDateUtc", transaction.TransactionDateUtc);
         }
 
         private string GetTransactionTableName(string tname)
@@ -242,28 +236,12 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
         {
             switch (property)
             {
-                case "TransactionUId":
-                    value = transaction.TransactionUId;
-                    break;
-
-                case "TransactionType":
-                    value = transaction.TransactionType;
-                    break;
-
                 case "TransactionDate":
                     value = transaction.TransactionDate;
                     break;
 
-                case "TransactionDateUtc":
-                    value = transaction.TransactionDateUtc;
-                    break;
-
                 case "ModifiedBy":
                     value = transaction.ModifiedBy;
-                    break;
-
-                case "RowVersion":
-                    value = transaction.RowVersion;
                     break;
 
                 default:
@@ -361,7 +339,6 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
         public async Task CommitAsync(TransactionInfo transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
-            if (string.IsNullOrWhiteSpace(transaction.TransactionType)) throw new ArgumentException(nameof(transaction.TransactionType));
             if (string.IsNullOrWhiteSpace(transaction.ModifiedBy)) throw new ArgumentException(nameof(transaction.ModifiedBy));
             transaction.TransactionDate = DateTime.Now;
 
@@ -369,7 +346,6 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
             {
                 base.Database.OpenConnection();
                 // Resetenado el detalla de las transacciones.
-                transaction.TransactionDetail = new List<TransactionDetail>();
 
                 using (var scope = TransactionScopeFactory.GetTransactionScope())
                 {
@@ -393,7 +369,7 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
                                 SqlCommandInfo sqlCommandInfo = GetSqlCommandInfo(transaction, entry, entityMapping);
                                 if (sqlCommandInfo != null) sqlCommandInfos.Add(sqlCommandInfo);
 
-                                transaction.AddDetail(entityMapping.TableName, entry.State.ToString(), transaction.TransactionType);
+                                transaction.AddDetail(entityMapping.TableName, entry.State.ToString(), string.Empty);
                             }
                             else
                             {
@@ -413,7 +389,7 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
                             SqlCommandInfo sqlCommandInfo = GetSqlCommandInfo(transaction, entry.EntityEntry, entityMapping);
                             if (sqlCommandInfo != null) sqlCommandInfos.Add(sqlCommandInfo);
 
-                            transaction.AddDetail(entityMapping.TableName, entry.State, transaction.TransactionType);
+                            transaction.AddDetail(entityMapping.TableName, entry.State, string.Empty);
                         }
 
                         // Adding Audit Detail Transaction CommandInfo.

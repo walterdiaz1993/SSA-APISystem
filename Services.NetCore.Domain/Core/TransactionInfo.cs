@@ -17,7 +17,6 @@
                 TransactionDetail.Add(
                     new TransactionDetail
                     {
-                        TransactionId = TransactionUId,
                         TableName = tableName,
                         CrudOperation = crudOperation,
                         TransactionType = transactionType

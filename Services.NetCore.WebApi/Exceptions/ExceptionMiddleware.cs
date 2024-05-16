@@ -46,12 +46,8 @@ namespace Services.NetCore.WebApi.Exceptions
             {
                 CreationDate = creationDate,
                 TransactionDate = transactionDate,
-                TransactionDateUtc = transactionDateUtc,
                 ModifiedBy = queryParameters.FirstOrDefault(x => x.Key == "RequestUserInfo.modifiedBy").Value,
-                TransactionType = Transactions.Added,
-                TransactionDescription = Transactions.CreateLogException,
                 Message = "An error occurred while processing your request",
-                TransactionUId = Guid.NewGuid(),
                 ExceptionError = context.Exception.Message.ToString(),
                 ActionName = actionName,
                 ControllerName = controllerName,
@@ -61,12 +57,8 @@ namespace Services.NetCore.WebApi.Exceptions
                     Property = x.Key,
                     Value = x.Value,
                     ModifiedBy = queryParameters.FirstOrDefault(x => x.Key == "RequestUserInfo.modifiedBy").Value,
-                    TransactionType = Transactions.Added,
-                    TransactionDescription = Transactions.CreateLogException,
                     CreationDate = transactionDate,
-                    TransactionDateUtc = transactionDateUtc,
                     TransactionDate = transactionDate,
-                    TransactionUId = Guid.NewGuid(),
                 }).ToList()
             };
 

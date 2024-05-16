@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Services.NetCore.WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class initial_load : Migration
+    public partial class UserTable_it_was_added : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace Services.NetCore.WebApi.Migrations
                 name: "ExceptionHandler");
 
             migrationBuilder.EnsureSchema(
-                name: "Commons");
+                name: "Security");
 
             migrationBuilder.CreateTable(
                 name: "LogExceptions",
@@ -29,15 +29,10 @@ namespace Services.NetCore.WebApi.Migrations
                     ControllerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ActionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HttpMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TransactionUId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TransactionType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    TransactionDateUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    TransactionDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,28 +40,21 @@ namespace Services.NetCore.WebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
-                schema: "Commons",
+                name: "User",
+                schema: "Security",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PurchasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    DatePurchase = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TransactionUId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TransactionType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    TransactionDateUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    TransactionDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,15 +67,10 @@ namespace Services.NetCore.WebApi.Migrations
                     Property = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LogExceptionId = table.Column<int>(type: "int", nullable: true),
-                    TransactionUId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TransactionType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    TransactionDateUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    TransactionDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,12 +94,12 @@ namespace Services.NetCore.WebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Product",
-                schema: "Commons");
-
-            migrationBuilder.DropTable(
                 name: "RequestParameter",
                 schema: "ExceptionHandler");
+
+            migrationBuilder.DropTable(
+                name: "User",
+                schema: "Security");
 
             migrationBuilder.DropTable(
                 name: "LogExceptions",

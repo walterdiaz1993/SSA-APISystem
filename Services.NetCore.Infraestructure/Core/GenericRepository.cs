@@ -57,14 +57,9 @@ namespace Services.NetCore.Infraestructure.Core
                 if (entity != null)
                 {
                     entity.ModifiedBy = transactionInfo.ModifiedBy;
-                    entity.TransactionType = transactionInfo.TransactionType;
                     entity.CreationDate = transactionInfo.CreationDate;
                     entity.IsActive = true;
-                    entity.TransactionDateUtc = transactionInfo.TransactionDateUtc;
                     entity.TransactionDate = DateTime.Now;
-                    entity.RowVersion = Array.Empty<byte>();
-                    entity.TransactionUId = transactionInfo.TransactionUId;
-                    entity.TransactionDescription = Transactions.Insert;
 
                     GetSet<TEntity>().Add(entity);
                 }
@@ -99,14 +94,8 @@ namespace Services.NetCore.Infraestructure.Core
                 if (entity != null)
                 {
                     entity.ModifiedBy = transactionInfo.ModifiedBy;
-                    entity.TransactionType = transactionInfo.TransactionType;
                     entity.CreationDate = DateTime.Now;
                     entity.IsActive = true;
-                    entity.TransactionDateUtc = transactionInfo.TransactionDateUtc;
-                    entity.TransactionDate = DateTime.Now;
-                    entity.RowVersion = Array.Empty<byte>();
-                    entity.TransactionUId = transactionInfo.TransactionUId;
-                    entity.TransactionDescription = Transactions.Insert;
 
                     await GetSet<TEntity>().AddAsync(entity);
 
@@ -507,7 +496,6 @@ namespace Services.NetCore.Infraestructure.Core
                 if (entity != null)
                 {
                     entity.TransactionDate = DateTime.Now;
-                    entity.TransactionDescription = Transactions.Update;
 
                     GetSet<TEntity>().Update(entity);
                 }
@@ -524,7 +512,6 @@ namespace Services.NetCore.Infraestructure.Core
                 if (entity != null)
                 {
                     entity.TransactionDate = DateTime.Now;
-                    entity.TransactionDescription = Transactions.Update;
 
                     await GetSet<TEntity>().UpdateAsync(x => x.Id == entity.Id);
                 }

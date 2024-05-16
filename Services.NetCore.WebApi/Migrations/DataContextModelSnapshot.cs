@@ -56,27 +56,8 @@ namespace Services.NetCore.WebApi.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TransactionDateUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TransactionType")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("TransactionUId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -107,27 +88,8 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<string>("Property")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TransactionDateUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TransactionType")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("TransactionUId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -139,7 +101,7 @@ namespace Services.NetCore.WebApi.Migrations
                     b.ToTable("RequestParameter", "ExceptionHandler");
                 });
 
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.Product", b =>
+            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.User.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,9 +112,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DatePurchase")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -160,37 +119,15 @@ namespace Services.NetCore.WebApi.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal>("PurchasePrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("TransactionDateUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TransactionType")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("TransactionUId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Product", "Commons");
+                    b.ToTable("User", "Security");
                 });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.Exceptions.RequestParameter", b =>

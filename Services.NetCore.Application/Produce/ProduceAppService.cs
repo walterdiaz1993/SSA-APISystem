@@ -18,21 +18,17 @@ namespace Services.NetCore.Application.Produce
 
         public async Task<List<ProduceDto>> GetProducts(ProduceRequest request)
         {
-            var products = await _repository.GetAllAsync<Product>();
+            //var products = await _repository.GetAllAsync<Product>();
 
-            return _mapper.Map<List<ProduceDto>>(products);
+            //return _mapper.Map<List<ProduceDto>>(products);
+
+            throw new NotImplementedException();
         }
 
         public async Task<ProduceDto> SaveProduce(ProduceRequest request)
         {
-            Product product = new Product
-            {
-                PurchasePrice = request.PurchasePrice,
-                Quantity = request.Quantity,
-                DatePurchase = request.DatePurchase
-            };
 
-            await _repository.AddAsync(product);
+            //await _repository.AddAsync(product);
             await _repository.UnitOfWork.CommitAsync();
 
             return new ProduceDto { Message = "Success" };

@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Services.NetCore.Crosscutting\Services.NetCore.Crosscutting.csproj" />
-    <ProjectReference Include="..\Services.NetCore.Domain\Services.NetCore.Domain.csproj" />
-    <ProjectReference Include="..\Services.NetCore.Infraestructure\Services.NetCore.Infraestructure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Services.NetCore.Crosscutting\Services.NetCore.Crosscutting.csproj" />
+		<ProjectReference Include="..\Services.NetCore.Domain\Services.NetCore.Domain.csproj" />
+		<ProjectReference Include="..\Services.NetCore.Infraestructure\Services.NetCore.Infraestructure.csproj" />
+	</ItemGroup>
 
 </Project>
