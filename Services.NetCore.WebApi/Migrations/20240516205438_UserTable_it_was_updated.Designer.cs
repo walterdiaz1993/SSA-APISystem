@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240516205438_UserTable_it_was_updated")]
+    partial class UserTable_it_was_updated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,87 +25,6 @@ namespace Services.NetCore.WebApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.AccountAgg.Account", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AccountType")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<bool?>("AllowEmergy")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Block")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("HouseNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LockCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Residence")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("Residential")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("ResidentialId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("TransactionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Account", "Security");
-                });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.Exceptions.LogExceptions", b =>
                 {
@@ -182,7 +104,7 @@ namespace Services.NetCore.WebApi.Migrations
                     b.ToTable("RequestParameter", "ExceptionHandler");
                 });
 
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.UserAgg.User", b =>
+            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.User.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -234,7 +156,7 @@ namespace Services.NetCore.WebApi.Migrations
                     b.ToTable("User", "Security");
                 });
 
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.UserAgg.User_Transactions", b =>
+            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.User.User_Transactions", b =>
                 {
                     b.Property<int>("UId")
                         .ValueGeneratedOnAdd()
@@ -289,17 +211,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.ToTable("User_Transactions", "Security");
                 });
 
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.AccountAgg.Account", b =>
-                {
-                    b.HasOne("Services.NetCore.Domain.Aggregates.UserAgg.User", "User")
-                        .WithMany("Accounts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.Exceptions.RequestParameter", b =>
                 {
                     b.HasOne("Services.NetCore.Domain.Aggregates.Exceptions.LogExceptions", "LogException")
@@ -312,11 +223,6 @@ namespace Services.NetCore.WebApi.Migrations
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.Exceptions.LogExceptions", b =>
                 {
                     b.Navigation("RequestParameters");
-                });
-
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.UserAgg.User", b =>
-                {
-                    b.Navigation("Accounts");
                 });
 #pragma warning restore 612, 618
         }
