@@ -1,4 +1,5 @@
 using System;
+using Services.NetCore.Crosscutting.Core;
 
 namespace Services.NetCore.Crosscutting.Dtos.Produce
 {

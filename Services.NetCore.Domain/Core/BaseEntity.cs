@@ -23,8 +23,8 @@ namespace Services.NetCore.Domain.Core
         public string ModifiedBy { get; set; }
 
         public bool IsActive { get; set; } = true;
-
-
+        public string TransactionType { get; set; }
+        public string TransactionDescription { get; set; }
         public BaseEntity()
         {
         }
@@ -32,6 +32,7 @@ namespace Services.NetCore.Domain.Core
         public BaseEntity(string modifiedBy, string transactionType)
         {
             ModifiedBy = modifiedBy;
+            TransactionType = transactionType;
         }
 
         [NotMapped]

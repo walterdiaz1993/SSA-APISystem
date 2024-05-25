@@ -1,9 +1,13 @@
-﻿using Services.NetCore.Crosscutting.Dtos.UserDto;
+﻿using Services.NetCore.Crosscutting.Core;
+using Services.NetCore.Crosscutting.Dtos.UserDto;
 
 namespace Services.NetCore.Application.Services.UserAppServices
 {
     public interface IUserAppService
     {
-        Task<UserResponse> AuthenticaUser(UserRequest request);
+        Task<UserResponse> AuthenticaUserAsync(AuthenticateUserRequest request);
+        Task<Response> CreateOrUpdateUserAsync(UserRequest request);
+        Task<Response> RemoveUserAsync(DeleteUserRequest deleteUserRequest);
+        Task<UserResponse> GetUsersAsync(string searchValue = null);
     }
 }

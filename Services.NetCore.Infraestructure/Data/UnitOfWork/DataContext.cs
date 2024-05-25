@@ -150,11 +150,14 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
         {
             ((BaseEntity)entry.Entity).TransactionDate = DateTime.Now;
             ((BaseEntity)entry.Entity).ModifiedBy = transaction.ModifiedBy;
+            ((BaseEntity)entry.Entity).TransactionDescription = entry.State.ToString();
 
             if (!((BaseEntity)entry.Entity).CreationDate.HasValue)
             {
                 ((BaseEntity)entry.Entity).CreationDate = DateTime.Now;
             }
+
+            AplicarInformacionTransaccion(entry, "TransactionType", transaction.TransactionType);
         }
 
         private string GetTransactionTableName(string tname)
@@ -346,6 +349,7 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
             {
                 base.Database.OpenConnection();
                 // Resetenado el detalla de las transacciones.
+                transaction.TransactionDetail = new List<TransactionDetail>();
 
                 using (var scope = TransactionScopeFactory.GetTransactionScope())
                 {
@@ -369,7 +373,7 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
                                 SqlCommandInfo sqlCommandInfo = GetSqlCommandInfo(transaction, entry, entityMapping);
                                 if (sqlCommandInfo != null) sqlCommandInfos.Add(sqlCommandInfo);
 
-                                transaction.AddDetail(entityMapping.TableName, entry.State.ToString(), string.Empty);
+                                transaction.AddDetail(entityMapping.TableName, entry.State.ToString(), transaction.TransactionType);
                             }
                             else
                             {

@@ -1,4 +1,4 @@
-﻿using Services.NetCore.Crosscutting.Dtos.Produce;
+﻿using Services.NetCore.Crosscutting.Core;
 using Services.NetCore.Domain.Aggregates;
 using Services.NetCore.Domain.Core;
 

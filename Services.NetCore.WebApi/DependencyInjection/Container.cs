@@ -7,6 +7,7 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork.Data.Core;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 using System.Linq;
 using Services.NetCore.Infraestructure.Mapping.Commons;
+using Services.NetCore.Infraestructure.Mapping.Security;
 
 namespace Services.NetCore.WebApi.DependencyInjection
 {
@@ -37,6 +38,7 @@ namespace Services.NetCore.WebApi.DependencyInjection
             var mapperConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<CommonsProfile>();
+                cfg.AddProfile<SecurityProfile>();
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240525164421_TransactionType_Was_Added")]
+    partial class TransactionType_Was_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,9 +96,6 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
@@ -184,9 +184,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
 
@@ -234,9 +231,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
 
@@ -271,9 +265,6 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
@@ -329,9 +320,6 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
@@ -390,9 +378,6 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
