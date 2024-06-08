@@ -23,5 +23,11 @@
         public const string ProvideAccess = nameof(ProvideAccess);
         public const string DeleteAccessPermissionToUser = nameof(DeleteAccessPermissionToUser);
         public const string RemoveAccessRoleToUser = nameof(RemoveAccessRoleToUser);
+        public const string UpdateResidential = nameof(UpdateResidential);
+        public const string CreateResidential = nameof(CreateResidential);
+        public const string DeleteResidential = nameof(DeleteResidential);
+        public const string UpdateResidence = nameof(UpdateResidence);
+        public const string CreateResidence = nameof(CreateResidence);
+        public const string DeleteResidence = nameof(DeleteResidence);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240608225454_Residence_And_Residential_Tables_Were_Added")]
+    partial class Residence_And_Residential_Tables_Were_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,22 +300,16 @@ namespace Services.NetCore.WebApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Block")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Color")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("HouseNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -322,20 +319,13 @@ namespace Services.NetCore.WebApi.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ResidentialId")
                         .HasColumnType("int");
 
                     b.Property<string>("ResidentialName")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<int?>("Residential_TransactionsUId")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
@@ -350,74 +340,7 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.HasIndex("ResidentialId");
 
-                    b.HasIndex("Residential_TransactionsUId");
-
                     b.ToTable("Residence", "Home");
-                });
-
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.ResidenceAgg.Residence_Transactions", b =>
-                {
-                    b.Property<int>("UId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UId"));
-
-                    b.Property<string>("Block")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("HouseNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<int>("ResidentialId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ResidentialName")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<DateTime?>("TransactionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransactionType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UId");
-
-                    b.HasIndex("ResidentialId");
-
-                    b.ToTable("Residence_Transactions", "Home");
                 });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.ResidentialAgg.Residential", b =>
@@ -432,13 +355,10 @@ namespace Services.NetCore.WebApi.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Color")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
@@ -454,9 +374,10 @@ namespace Services.NetCore.WebApi.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ResidentialId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
@@ -470,61 +391,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Residential", "Home");
-                });
-
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.ResidentialAgg.Residential_Transactions", b =>
-                {
-                    b.Property<int>("UId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UId"));
-
-                    b.Property<bool?>("AllowEmergency")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Color")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Limit")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<DateTime?>("TransactionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransactionType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UId");
-
-                    b.ToTable("Residential_Transactions", "Home");
                 });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.Permission", b =>
@@ -947,21 +813,6 @@ namespace Services.NetCore.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Services.NetCore.Domain.Aggregates.ResidentialAgg.Residential_Transactions", null)
-                        .WithMany("Residences")
-                        .HasForeignKey("Residential_TransactionsUId");
-
-                    b.Navigation("Residential");
-                });
-
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.ResidenceAgg.Residence_Transactions", b =>
-                {
-                    b.HasOne("Services.NetCore.Domain.Aggregates.ResidentialAgg.Residential", "Residential")
-                        .WithMany()
-                        .HasForeignKey("ResidentialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Residential");
                 });
 
@@ -982,11 +833,6 @@ namespace Services.NetCore.WebApi.Migrations
                 });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.ResidentialAgg.Residential", b =>
-                {
-                    b.Navigation("Residences");
-                });
-
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.ResidentialAgg.Residential_Transactions", b =>
                 {
                     b.Navigation("Residences");
                 });

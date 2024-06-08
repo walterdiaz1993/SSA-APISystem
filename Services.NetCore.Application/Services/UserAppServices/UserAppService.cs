@@ -60,14 +60,14 @@ namespace Services.NetCore.Application.Services.UserAppServices
                 existingUser.Gender = request.User.Gender;
                 existingUser.UserName = request.User.UserName;
 
-                transactionInfo = TransactionInfoFactory.CrearTransactionInfo(request.RequestUserInfo, Transactions.UpdateUser);
+                transactionInfo = TransactionInfoFactory.CreateTransactionInfo(request.RequestUserInfo, Transactions.UpdateUser);
             }
             else
             {
                 var newUser = _mapper.Map<User>(request.User);
                 newUser.Password = AESEncryptor.Encrypt(newUser.Password);
 
-                transactionInfo = TransactionInfoFactory.CrearTransactionInfo(request.RequestUserInfo, Transactions.CreateUser);
+                transactionInfo = TransactionInfoFactory.CreateTransactionInfo(request.RequestUserInfo, Transactions.CreateUser);
                 await _repository.AddAsync(newUser);
             }
 
@@ -106,7 +106,7 @@ namespace Services.NetCore.Application.Services.UserAppServices
 
             await _repository.RemoveAsync(user);
 
-            TransactionInfo transactionInfo = TransactionInfoFactory.CrearTransactionInfo(deleteUserRequest.RequestUserInfo, Transactions.DeleteUser);
+            TransactionInfo transactionInfo = TransactionInfoFactory.CreateTransactionInfo(deleteUserRequest.RequestUserInfo, Transactions.DeleteUser);
 
             await _repository.UnitOfWork.CommitAsync(transactionInfo);
 

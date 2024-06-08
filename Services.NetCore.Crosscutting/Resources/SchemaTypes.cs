@@ -6,5 +6,6 @@
         public const string Commons = nameof(Commons);
         public const string Security = nameof(Security);
         public const string SecurityManagement = nameof(SecurityManagement);
+        public const string Home = nameof(Home);
     }
 }
