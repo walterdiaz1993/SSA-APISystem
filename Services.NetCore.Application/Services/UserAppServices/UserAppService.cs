@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Services.NetCore.Application.Core;
+using Services.NetCore.Application.Services.SecurityManagementAppServices;
 using Services.NetCore.Crosscutting.Core;
 using Services.NetCore.Crosscutting.Dtos.UserDto;
 using Services.NetCore.Crosscutting.Helpers;
@@ -13,9 +14,11 @@ namespace Services.NetCore.Application.Services.UserAppServices
     public class UserAppService : BaseAppService, IUserAppService
     {
         private readonly IMapper _mapper;
-        public UserAppService(IGenericRepository<IGenericDataContext> repository, IMapper mapper) : base(repository)
+        private readonly ISecurityManagementAppService _securityManagementAppService;
+        public UserAppService(IGenericRepository<IGenericDataContext> repository, IMapper mapper, ISecurityManagementAppService securityManagementAppService) : base(repository)
         {
             _mapper = mapper;
+            _securityManagementAppService = securityManagementAppService;
         }
 
         public async Task<UserResponse> AuthenticaUserAsync(AuthenticateUserRequest request)
@@ -29,14 +32,14 @@ namespace Services.NetCore.Application.Services.UserAppServices
             {
                 return new UserResponse { ValidationErrorMessage = CommonsDictionary.InvalidUserNameOrPassword };
             }
+            var acceses = await _securityManagementAppService.GetAccessesByUserName(username);
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Accesses = acceses;
 
             return new UserResponse
             {
                 Success = true,
-                User = new UserDto
-                {
-                    UserName = user.UserName,
-                }
+                User = userDto,
             };
         }
 
@@ -45,7 +48,7 @@ namespace Services.NetCore.Application.Services.UserAppServices
             ThrowIf.Argument.IsNull(request, nameof(request));
             ThrowIf.Argument.IsNull(request.User, nameof(request.User));
 
-            var existingUser = await _repository.GetSingleAsync<User>(u => u.UserName == request.User.UserName);
+            var existingUser = await _repository.GetSingleAsync<User>(u => u.UserName == request.User.UserName || u.Id == request.User.Id);
             TransactionInfo transactionInfo;
 
             if (existingUser != null)
@@ -55,6 +58,7 @@ namespace Services.NetCore.Application.Services.UserAppServices
                 existingUser.DeviceId = request.User.DeviceId;
                 existingUser.Residential = request.User.Residential;
                 existingUser.Gender = request.User.Gender;
+                existingUser.UserName = request.User.UserName;
 
                 transactionInfo = TransactionInfoFactory.CrearTransactionInfo(request.RequestUserInfo, Transactions.UpdateUser);
             }

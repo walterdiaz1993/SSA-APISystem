@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240608180304_Relationships_Were_Updated")]
+    partial class Relationships_Were_Updated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -426,7 +429,12 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Role", "SecurityManagement");
                 });
@@ -513,6 +521,8 @@ namespace Services.NetCore.WebApi.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserRole", "SecurityManagement");
                 });
@@ -711,6 +721,22 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.Role", b =>
+                {
+                    b.HasOne("Services.NetCore.Domain.Aggregates.UserAgg.User", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.UserRole", b =>
+                {
+                    b.HasOne("Services.NetCore.Domain.Aggregates.UserAgg.User", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.Exceptions.LogExceptions", b =>
                 {
                     b.Navigation("RequestParameters");
@@ -724,6 +750,10 @@ namespace Services.NetCore.WebApi.Migrations
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.UserAgg.User", b =>
                 {
                     b.Navigation("Accounts");
+
+                    b.Navigation("Roles");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

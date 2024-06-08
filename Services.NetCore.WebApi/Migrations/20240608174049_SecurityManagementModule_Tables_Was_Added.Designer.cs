@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240608174049_SecurityManagementModule_Tables_Was_Added")]
+    partial class SecurityManagementModule_Tables_Was_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,6 +25,36 @@ namespace Services.NetCore.WebApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("PermissionUserRole", b =>
+                {
+                    b.Property<int>("PermissionsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserRolesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PermissionsId", "UserRolesId");
+
+                    b.HasIndex("UserRolesId");
+
+                    b.ToTable("PermissionUserRole", "Security");
+                });
+
+            modelBuilder.Entity("RoleUserRole", b =>
+                {
+                    b.Property<int>("RolesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserRolesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RolesId", "UserRolesId");
+
+                    b.HasIndex("UserRolesId");
+
+                    b.ToTable("RoleUserRole", "EfCore_dbo");
+                });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.AccountAgg.Account", b =>
                 {
@@ -335,58 +368,7 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Permission", "SecurityManagement");
-                });
-
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.Permission_Transactions", b =>
-                {
-                    b.Property<int>("UId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UId"));
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsGranted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("TransactionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransactionType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UId");
-
-                    b.ToTable("Permission_Transactions", "SecurityManagement");
+                    b.ToTable("Permission", "Security");
                 });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.Role", b =>
@@ -426,54 +408,14 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Role", "SecurityManagement");
-                });
-
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.Role_Transactions", b =>
-                {
-                    b.Property<int>("UId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UId"));
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("TransactionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransactionType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UId");
-
-                    b.ToTable("Role_Transactions", "SecurityManagement");
                 });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.UserRole", b =>
@@ -514,51 +456,9 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserRole", "SecurityManagement");
-                });
+                    b.HasIndex("UserId");
 
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.UserRole_Transactions", b =>
-                {
-                    b.Property<int>("UId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UId"));
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("PermissionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("TransactionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransactionType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UId");
-
-                    b.ToTable("UserRole_Transactions", "SecurityManagement");
+                    b.ToTable("UserRole", "Security");
                 });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.UserAgg.User", b =>
@@ -680,6 +580,36 @@ namespace Services.NetCore.WebApi.Migrations
                     b.ToTable("User_Transactions", "Security");
                 });
 
+            modelBuilder.Entity("PermissionUserRole", b =>
+                {
+                    b.HasOne("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.UserRole", null)
+                        .WithMany()
+                        .HasForeignKey("UserRolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RoleUserRole", b =>
+                {
+                    b.HasOne("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.UserRole", null)
+                        .WithMany()
+                        .HasForeignKey("UserRolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.AccountAgg.Account", b =>
                 {
                     b.HasOne("Services.NetCore.Domain.Aggregates.UserAgg.User", "User")
@@ -711,6 +641,24 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.Role", b =>
+                {
+                    b.HasOne("Services.NetCore.Domain.Aggregates.UserAgg.User", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.UserRole", b =>
+                {
+                    b.HasOne("Services.NetCore.Domain.Aggregates.UserAgg.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.Exceptions.LogExceptions", b =>
                 {
                     b.Navigation("RequestParameters");
@@ -724,6 +672,10 @@ namespace Services.NetCore.WebApi.Migrations
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.UserAgg.User", b =>
                 {
                     b.Navigation("Accounts");
+
+                    b.Navigation("Roles");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

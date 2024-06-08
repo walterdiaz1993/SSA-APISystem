@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Services.NetCore.Crosscutting.Core;
+﻿using Services.NetCore.Crosscutting.Core;
+using Services.NetCore.Crosscutting.Dtos.SecurityManagement;
 
 namespace Services.NetCore.Crosscutting.Dtos.UserDto
 {
@@ -18,5 +18,7 @@ namespace Services.NetCore.Crosscutting.Dtos.UserDto
         public string DeviceId { get; set; }
         public string Residential { get; set; }
         public string Gender { get; set; }
+
+        public List<AccessesDto> Accesses { get; set; }
     }
 }

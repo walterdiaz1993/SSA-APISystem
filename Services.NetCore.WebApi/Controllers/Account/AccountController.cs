@@ -42,6 +42,15 @@ namespace Services.NetCore.WebApi.Controllers.Account
 
             return Ok(response);
         }
+
+        [HttpPost]
+        [Route("enable-or-disable-massives-accounts")]
+        public async Task<IActionResult> DisableAccountsByIdsAsync(DisableOrEnableAccountRequest disableOrEnableAccountRequest)
+        {
+            var response = await _accountAppService.DisableAccountsByIdsAsync(disableOrEnableAccountRequest);
+
+            return Ok(response);
+        }
     }
 
 }

@@ -54,6 +54,37 @@ namespace Services.NetCore.Application.Services.AccountAppServices
             return new Response { Success = true, Message = "Account Created/Updated Successfully." };
         }
 
+        public async Task<Response> DisableAccountsByIdsAsync(DisableOrEnableAccountRequest disableOrEnableAccountRequest)
+        {
+            ThrowIf.Argument.IsNull(disableOrEnableAccountRequest, nameof(disableOrEnableAccountRequest));
+            ThrowIf.Argument.IsNull(disableOrEnableAccountRequest.Ids, nameof(disableOrEnableAccountRequest.Ids));
+
+
+            var accounts = await _repository.GetFilteredAsync<Account>(x => disableOrEnableAccountRequest.Ids.Contains(x.Id));
+            TransactionInfo transactionInfo;
+
+            if (accounts != null || accounts.Any())
+            {
+                foreach (var account in accounts)
+                {
+                    account.IsActive = disableOrEnableAccountRequest.IsActive;
+                }
+
+                if (disableOrEnableAccountRequest.IsActive)
+                {
+                    transactionInfo = TransactionInfoFactory.CrearTransactionInfo(disableOrEnableAccountRequest.RequestUserInfo, Transactions.EnableMassiveAccounts);
+                }
+                else
+                {
+                    transactionInfo = TransactionInfoFactory.CrearTransactionInfo(disableOrEnableAccountRequest.RequestUserInfo, Transactions.DisableMassiveAccounts);
+                }
+
+                await _repository.UnitOfWork.CommitAsync(transactionInfo);
+            }
+
+            return new Response { Success = true };
+        }
+
         public async Task<AccountResponse> GetAccountsAsync(string searchValue = null)
         {
             var accounts = await _repository.GetFilteredAsync<Account>(x =>

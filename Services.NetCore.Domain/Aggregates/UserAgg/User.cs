@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Services.NetCore.Domain.Core;
 using System.ComponentModel.DataAnnotations;
 using Services.NetCore.Domain.Aggregates.AccountAgg;
+using Services.NetCore.Domain.Aggregates.SecurityManagerAggs;
 
 namespace Services.NetCore.Domain.Aggregates.UserAgg
 {
@@ -22,7 +23,6 @@ namespace Services.NetCore.Domain.Aggregates.UserAgg
 
         [StringLength(50), Required]
         public string Gender { get; set; }
-
         public virtual ICollection<Account> Accounts { get; set; }
     }
 }

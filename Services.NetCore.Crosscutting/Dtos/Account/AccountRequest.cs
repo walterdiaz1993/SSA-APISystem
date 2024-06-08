@@ -11,4 +11,10 @@ namespace Services.NetCore.Crosscutting.Dtos.Account
     {
         public int AccountId { get; set; }
     }
+
+    public class DisableOrEnableAccountRequest : RequestBase
+    {
+        public List<int> Ids { get; set; }
+        public bool IsActive { get; set; }
+    }
 }

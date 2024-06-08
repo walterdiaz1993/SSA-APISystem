@@ -12,5 +12,16 @@
         public const string CreateAccount = nameof(CreateAccount);
         public const string DeleteAccount = nameof(DeleteAccount);
         public const string UpdateAccount = nameof(UpdateAccount);
+        public const string DisableMassiveAccounts = nameof(DisableMassiveAccounts);
+        public const string EnableMassiveAccounts = nameof(EnableMassiveAccounts);
+        public const string CreatePermission = nameof(CreatePermission);
+        public const string UpdatePermission = nameof(UpdatePermission);
+        public const string CreateRole = nameof(CreateRole);
+        public const string UpdateRole = nameof(UpdateRole);
+        public const string DeletePermission = nameof(DeletePermission);
+        public const string DeleteRole = nameof(DeleteRole);
+        public const string ProvideAccess = nameof(ProvideAccess);
+        public const string DeleteAccessPermissionToUser = nameof(DeleteAccessPermissionToUser);
+        public const string RemoveAccessRoleToUser = nameof(RemoveAccessRoleToUser);
     }
 }

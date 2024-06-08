@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240608175523_RoleTable_Was_Updated")]
+    partial class RoleTable_Was_Updated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,6 +25,21 @@ namespace Services.NetCore.WebApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("PermissionUserRole", b =>
+                {
+                    b.Property<int>("PermissionsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserRolesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PermissionsId", "UserRolesId");
+
+                    b.HasIndex("UserRolesId");
+
+                    b.ToTable("PermissionUserRole", "SecurityManagement");
+                });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.AccountAgg.Account", b =>
                 {
@@ -426,7 +444,17 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserRoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserRoleId");
 
                     b.ToTable("Role", "SecurityManagement");
                 });
@@ -513,6 +541,8 @@ namespace Services.NetCore.WebApi.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserRole", "SecurityManagement");
                 });
@@ -680,6 +710,21 @@ namespace Services.NetCore.WebApi.Migrations
                     b.ToTable("User_Transactions", "Security");
                 });
 
+            modelBuilder.Entity("PermissionUserRole", b =>
+                {
+                    b.HasOne("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.UserRole", null)
+                        .WithMany()
+                        .HasForeignKey("UserRolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.AccountAgg.Account", b =>
                 {
                     b.HasOne("Services.NetCore.Domain.Aggregates.UserAgg.User", "User")
@@ -711,6 +756,28 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.Role", b =>
+                {
+                    b.HasOne("Services.NetCore.Domain.Aggregates.UserAgg.User", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.UserRole", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserRoleId");
+                });
+
+            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.UserRole", b =>
+                {
+                    b.HasOne("Services.NetCore.Domain.Aggregates.UserAgg.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.Exceptions.LogExceptions", b =>
                 {
                     b.Navigation("RequestParameters");
@@ -721,9 +788,18 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Navigation("Permissions");
                 });
 
+            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.SecurityManagerAggs.UserRole", b =>
+                {
+                    b.Navigation("Roles");
+                });
+
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.UserAgg.User", b =>
                 {
                     b.Navigation("Accounts");
+
+                    b.Navigation("Roles");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }
