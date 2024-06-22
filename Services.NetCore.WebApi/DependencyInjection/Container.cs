@@ -10,6 +10,7 @@ using Services.NetCore.Infraestructure.Mapping.Commons;
 using Services.NetCore.Infraestructure.Mapping.Security;
 using Services.NetCore.Infraestructure.Mapping.SecurityManagement;
 using Services.NetCore.Infraestructure.Mapping.Home;
+using Services.NetCore.Infraestructure.Mapping.Payment;
 
 namespace Services.NetCore.WebApi.DependencyInjection
 {
@@ -43,6 +44,7 @@ namespace Services.NetCore.WebApi.DependencyInjection
                 cfg.AddProfile<SecurityProfile>();
                 cfg.AddProfile<SecurityManagementProfile>();
                 cfg.AddProfile<HomeProfile>();
+                cfg.AddProfile<PaymentProfile>();
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

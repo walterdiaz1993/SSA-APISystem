@@ -7,5 +7,6 @@
         public const string Security = nameof(Security);
         public const string SecurityManagement = nameof(SecurityManagement);
         public const string Home = nameof(Home);
+        public const string Payment = nameof(Payment);
     }
 }

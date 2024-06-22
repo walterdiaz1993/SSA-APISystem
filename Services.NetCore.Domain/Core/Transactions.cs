@@ -29,5 +29,8 @@
         public const string UpdateResidence = nameof(UpdateResidence);
         public const string CreateResidence = nameof(CreateResidence);
         public const string DeleteResidence = nameof(DeleteResidence);
+        public const string DeletePaymentType = nameof(DeletePaymentType);
+        public const string CreatePaymentType = nameof(CreatePaymentType);
+        public const string UpdatePaymentType = nameof(UpdatePaymentType);
     }
 }
