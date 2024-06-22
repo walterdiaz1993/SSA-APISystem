@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Services.NetCore.Application.Services.CommonAppServices;
 using Services.NetCore.Application.Services.Payment.PaymentTypeAppServices;
-using Services.NetCore.Crosscutting.Core;
 using Services.NetCore.Crosscutting.Dtos.PaymentType;
 
 namespace Services.NetCore.WebApi.Controllers.PaymentType
