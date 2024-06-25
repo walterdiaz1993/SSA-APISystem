@@ -204,7 +204,7 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
 
             string nameTable = string.Format("{0}.{1}", schema, name);
 
-            EntityMapping entityMapping = tableMapping.FirstOrDefault(m => m.EntityType == type);
+            EntityMapping entityMapping = tableMapping.FirstOrDefault(m => m.EntityType == type && m.TableName == nameTable);
             if (entityMapping == null)
             {
                 entityMapping = CreateTableMapping(type, nameTable);

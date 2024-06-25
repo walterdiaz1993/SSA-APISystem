@@ -9,6 +9,9 @@ namespace Services.NetCore.Domain.Aggregates.PaymentTypeAgg
     [Table(nameof(PaymentType_Transactions), Schema = SchemaTypes.Payment)]
     public class PaymentType_Transactions : BaseEntity
     {
+        [Required, StringLength(30)]
+        public string PaymentTypeNo { get; set; }
+
         [Required, StringLength(100)]
         public string Name { get; set; }
 
@@ -20,5 +23,9 @@ namespace Services.NetCore.Domain.Aggregates.PaymentTypeAgg
 
         [Required, Column(TypeName = standardDecimal)]
         public PaymentInterval PaymentInterval { get; set; }
+        public int ResidentialId { get; set; }
+
+        [Required]
+        public int LatePayment { get; set; }
     }
 }

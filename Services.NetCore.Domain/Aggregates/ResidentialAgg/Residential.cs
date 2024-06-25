@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Services.NetCore.Crosscutting.Resources;
+using Services.NetCore.Domain.Aggregates.PaymentTypeAgg;
 using Services.NetCore.Domain.Aggregates.ResidenceAgg;
 using Services.NetCore.Domain.Core;
 
@@ -22,5 +23,7 @@ namespace Services.NetCore.Domain.Aggregates.ResidentialAgg
         [StringLength(50)]
         public string Color { get; set; }
         public virtual ICollection<Residence> Residences { get; set; }
+
+        public virtual ICollection<PaymentType> PaymentTypes { get; set; }
     }
 }

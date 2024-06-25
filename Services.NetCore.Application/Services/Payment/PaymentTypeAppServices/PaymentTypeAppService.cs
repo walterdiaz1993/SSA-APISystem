@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+﻿using System.Data.Common;
+using AutoMapper;
 using Services.NetCore.Application.Core;
+using Services.NetCore.Application.Services.CommonAppServices;
 using Services.NetCore.Crosscutting.Core;
 using Services.NetCore.Crosscutting.Dtos.PaymentType;
 using Services.NetCore.Domain.Aggregates.PaymentTypeAgg;
@@ -12,10 +14,12 @@ namespace Services.NetCore.Application.Services.Payment.PaymentTypeAppServices
     public class PaymentTypeAppService : BaseAppService, IPaymentTypeAppService
     {
         private readonly IMapper _mapper;
+        private readonly ICommonAppService _commonAppService;
 
-        public PaymentTypeAppService(IGenericRepository<IGenericDataContext> repository, IMapper mapper) : base(repository)
+        public PaymentTypeAppService(IGenericRepository<IGenericDataContext> repository, IMapper mapper, ICommonAppService commonAppService) : base(repository)
         {
             _mapper = mapper;
+            _commonAppService = commonAppService;
         }
         public async Task<Response> CreateOrUpdatePaymentTypeAsync(PaymentTypeRequest paymentTypeRequest)
         {
@@ -37,7 +41,8 @@ namespace Services.NetCore.Application.Services.Payment.PaymentTypeAppServices
             else
             {
                 var newPaymentType = _mapper.Map<PaymentType>(paymentTypeRequest.PaymentType);
-
+                var paymentTypeNo = await _commonAppService.GenerateCorrelative(CorrelativeTypes.PT);
+                newPaymentType.PaymentTypeNo = paymentTypeNo;
                 transactionInfo = TransactionInfoFactory.CreateTransactionInfo(paymentTypeRequest.RequestUserInfo, Transactions.CreatePaymentType);
                 await _repository.AddAsync(newPaymentType);
             }

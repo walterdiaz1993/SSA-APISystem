@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240625011801_PaymentType_Table_Relationship_With_Residential_Was_Added")]
+    partial class PaymentType_Table_Relationship_With_Residential_Was_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -414,9 +417,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LatePayment")
-                        .HasColumnType("int");
-
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -429,12 +429,7 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<int>("PaymentInterval")
                         .HasColumnType("int");
 
-                    b.Property<string>("PaymentTypeNo")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<int>("ResidentialId")
+                    b.Property<int?>("ResidentialId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("TransactionDate")
@@ -477,9 +472,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LatePayment")
-                        .HasColumnType("int");
-
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -491,14 +483,6 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.Property<decimal>("PaymentInterval")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("PaymentTypeNo")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<int>("ResidentialId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
@@ -1169,9 +1153,7 @@ namespace Services.NetCore.WebApi.Migrations
                 {
                     b.HasOne("Services.NetCore.Domain.Aggregates.ResidentialAgg.Residential", "Residential")
                         .WithMany("PaymentTypes")
-                        .HasForeignKey("ResidentialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ResidentialId");
 
                     b.Navigation("Residential");
                 });
