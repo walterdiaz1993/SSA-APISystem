@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240625033349_Invoice_And_InvoiceDetail_Tables_Were_Added")]
+    partial class Invoice_And_InvoiceDetail_Tables_Were_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -564,8 +567,6 @@ namespace Services.NetCore.WebApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
 
                     b.ToTable("InvoiceDetail", "Payment");
                 });
@@ -1399,17 +1400,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Navigation("LogException");
                 });
 
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.InvoiceDetailAgg.InvoiceDetail", b =>
-                {
-                    b.HasOne("Services.NetCore.Domain.Aggregates.InvoiceAgg.Invoice", "Invoice")
-                        .WithMany("InvoiceDetail")
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Invoice");
-                });
-
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.PaymentTypeAgg.PaymentType", b =>
                 {
                     b.HasOne("Services.NetCore.Domain.Aggregates.ResidentialAgg.Residential", "Residential")
@@ -1461,11 +1451,6 @@ namespace Services.NetCore.WebApi.Migrations
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.Exceptions.LogExceptions", b =>
                 {
                     b.Navigation("RequestParameters");
-                });
-
-            modelBuilder.Entity("Services.NetCore.Domain.Aggregates.InvoiceAgg.Invoice", b =>
-                {
-                    b.Navigation("InvoiceDetail");
                 });
 
             modelBuilder.Entity("Services.NetCore.Domain.Aggregates.ResidentialAgg.Residential", b =>
