@@ -32,5 +32,8 @@
         public const string DeletePaymentType = nameof(DeletePaymentType);
         public const string CreatePaymentType = nameof(CreatePaymentType);
         public const string UpdatePaymentType = nameof(UpdatePaymentType);
+        public const string CreateInvoice = nameof(CreateInvoice);
+        public const string UpdateInvoice = nameof(UpdateInvoice);
+        public const string DeleteInvoice = nameof(DeleteInvoice);
     }
 }
