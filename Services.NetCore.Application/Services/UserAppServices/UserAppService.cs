@@ -4,6 +4,8 @@ using Services.NetCore.Application.Services.SecurityManagementAppServices;
 using Services.NetCore.Crosscutting.Core;
 using Services.NetCore.Crosscutting.Dtos.UserDto;
 using Services.NetCore.Crosscutting.Helpers;
+using Services.NetCore.Domain.Aggregates.ResidenceAgg;
+using Services.NetCore.Domain.Aggregates.ResidentialAgg;
 using Services.NetCore.Domain.Aggregates.UserAgg;
 using Services.NetCore.Domain.Core;
 using Services.NetCore.Infraestructure.Core;
@@ -48,7 +50,7 @@ namespace Services.NetCore.Application.Services.UserAppServices
             ThrowIf.Argument.IsNull(request, nameof(request));
             ThrowIf.Argument.IsNull(request.User, nameof(request.User));
 
-            var existingUser = await _repository.GetSingleAsync<User>(u => u.UserName == request.User.UserName || u.Id == request.User.Id);
+            var existingUser = await _repository.GetSingleAsync<User>(u => u.UserName == request.User.UserName || u.Id == request.User.Id, new List<string> { "Accounts" });
             TransactionInfo transactionInfo;
 
             if (existingUser != null)
@@ -59,6 +61,22 @@ namespace Services.NetCore.Application.Services.UserAppServices
                 existingUser.Residential = request.User.Residential;
                 existingUser.Gender = request.User.Gender;
                 existingUser.UserName = request.User.UserName;
+                existingUser.Accounts = request.User.Accounts.Select(x => new Domain.Aggregates.AccountAgg.Account
+                {
+                    Id = x.Id,
+                    FullName = x.FullName,
+                    PhoneNumber = x.PhoneNumber,
+                    Residence = x.Residence,
+                    AccountType = x.AccountType,
+                    Residential = x.Residential,
+                    Block = x.Block,
+                    HouseNumber = x.HouseNumber,
+                    ResidentialId = x.ResidentialId,
+                    AllowEmergy = x.AllowEmergy,
+                    LockCode = x.LockCode,
+                    UserId = x.UserId,
+                    Email = x.Email,
+                }).ToList();
 
                 transactionInfo = TransactionInfoFactory.CreateTransactionInfo(request.RequestUserInfo, Transactions.UpdateUser);
             }
