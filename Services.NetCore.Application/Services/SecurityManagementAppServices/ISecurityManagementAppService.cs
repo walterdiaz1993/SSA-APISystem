@@ -9,8 +9,8 @@ namespace Services.NetCore.Application.Services.SecurityManagementAppServices
         Task<RolesResponse> GetAllRoles();
         Task<ResponseBase> CreateOrUpdatePermission(PermissionRequest request);
         Task<ResponseBase> CreateOrUpdateRole(RoleRequest request);
-        Task<ResponseBase> DeletePermission(int id, UserInfoDto requestUserInfo);
-        Task<ResponseBase> DeleteRole(int id, UserInfoDto requestUserInfo);
+        Task<ResponseBase> DeletePermission(PermissionRequest request);
+        Task<ResponseBase> DeleteRole(RoleRequest request);
         Task<ResponseBase> ProvideAccesess(UserRoleRequest request);
         Task<ResponseBase> RemoveAccessRoleToUser(int id, int UserId, UserInfoDto requestUserInfo);
         Task<ResponseBase> RemoveAccessPermissionToUser(int id, int userId, UserInfoDto requestUserInfo);

@@ -54,7 +54,9 @@ namespace Services.NetCore.Application.Services.ResidenceAppServices
 
             if (!string.IsNullOrEmpty(searchValue))
             {
-                residences = await _repository.GetFilteredAsync<Residence>(r => r.Name.Contains(searchValue) ||
+                var residentialId = Convert.ToInt32(searchValue);
+                residences = residentialId > 0 ? await _repository.GetFilteredAsync<Residence>(r => r.ResidentialId == residentialId) : 
+                                                await _repository.GetFilteredAsync<Residence>(r => r.Name.Contains(searchValue) ||
                                                                                r.ResidentialName.Contains(searchValue));
             }
             else

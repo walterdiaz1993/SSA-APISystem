@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Services.NetCore.Application.Core;
 using Services.NetCore.Crosscutting.Core;
 using Services.NetCore.Crosscutting.Dtos.SecurityManagement;
@@ -81,12 +82,12 @@ namespace Services.NetCore.Application.Services.SecurityManagementAppServices
             return new ResponseBase { Success = true };
         }
 
-        public async Task<ResponseBase> DeletePermission(int id, UserInfoDto requestUserInfo)
+        public async Task<ResponseBase> DeletePermission(PermissionRequest request)
         {
-            if (id > 0)
+            if (request.Id > 0)
             {
-                await _repository.RemoveAsync<Permission>(u => u.Id == id);
-                var transactionInfo = TransactionInfoFactory.CreateTransactionInfo(requestUserInfo, Transactions.DeletePermission);
+                await _repository.RemoveAsync<Permission>(u => u.Id == request.Id);
+                var transactionInfo = TransactionInfoFactory.CreateTransactionInfo(request.RequestUserInfo, Transactions.DeletePermission);
 
                 await _repository.UnitOfWork.CommitAsync(transactionInfo);
 
@@ -96,12 +97,12 @@ namespace Services.NetCore.Application.Services.SecurityManagementAppServices
             return new ResponseBase { Success = true, ValidationErrorMessage = Setting.permissionDoesnExist };
         }
 
-        public async Task<ResponseBase> DeleteRole(int id, UserInfoDto requestUserInfo)
+        public async Task<ResponseBase> DeleteRole(RoleRequest request)
         {
-            if (id > 0)
+            if (request.Role.Id > 0)
             {
-                await _repository.RemoveAsync<Role>(u => u.Id == id);
-                var transactionInfo = TransactionInfoFactory.CreateTransactionInfo(requestUserInfo, Transactions.DeleteRole);
+                await _repository.RemoveAsync<Role>(u => u.Id == request.Role.Id);
+                var transactionInfo = TransactionInfoFactory.CreateTransactionInfo(request.RequestUserInfo, Transactions.DeleteRole);
 
                 await _repository.UnitOfWork.CommitAsync(transactionInfo);
 

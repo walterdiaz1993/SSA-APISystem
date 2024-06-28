@@ -64,18 +64,18 @@ namespace Services.NetCore.WebApi.Controllers.SecurityManagement
 
         [HttpDelete]
         [Route("remove-permission")]
-        public async Task<IActionResult> RemovePermission(int id, RequestBase request)
+        public async Task<IActionResult> RemovePermission(PermissionRequest request)
         {
-            var response = await _securityManagementAppService.DeletePermission(id, request.RequestUserInfo);
+            var response = await _securityManagementAppService.DeletePermission(request);
 
             return Ok(response);
         }
 
         [HttpDelete]
         [Route("remove-role")]
-        public async Task<IActionResult> RemoveRole(int id, RequestBase request)
+        public async Task<IActionResult> RemoveRole(RoleRequest request)
         {
-            var response = await _securityManagementAppService.DeleteRole(id, request.RequestUserInfo);
+            var response = await _securityManagementAppService.DeleteRole(request);
 
             return Ok(response);
         }
