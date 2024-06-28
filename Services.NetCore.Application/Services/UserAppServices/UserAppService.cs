@@ -4,6 +4,7 @@ using Services.NetCore.Application.Services.SecurityManagementAppServices;
 using Services.NetCore.Crosscutting.Core;
 using Services.NetCore.Crosscutting.Dtos.UserDto;
 using Services.NetCore.Crosscutting.Helpers;
+using Services.NetCore.Domain.Aggregates.AccountAgg;
 using Services.NetCore.Domain.Aggregates.ResidenceAgg;
 using Services.NetCore.Domain.Aggregates.ResidentialAgg;
 using Services.NetCore.Domain.Aggregates.UserAgg;
@@ -61,7 +62,7 @@ namespace Services.NetCore.Application.Services.UserAppServices
                 existingUser.Residential = request.User.Residential;
                 existingUser.Gender = request.User.Gender;
                 existingUser.UserName = request.User.UserName;
-                existingUser.Accounts = request.User.Accounts.Select(x => new Domain.Aggregates.AccountAgg.Account
+                existingUser.Accounts = request.User.Accounts.Select(x => new Account
                 {
                     Id = x.Id,
                     FullName = x.FullName,

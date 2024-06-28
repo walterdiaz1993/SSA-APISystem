@@ -19,8 +19,9 @@ namespace Services.NetCore.Crosscutting.Dtos.Account
         public string Residential { get; set; }
         public string Block { get; set; }
         public string HouseNumber { get; set; }
-        public int? ResidentialId { get; set; }
-        public bool? AllowEmergy { get; set; }
+        public int ResidentialId { get; set; }
+        public int ResidenceId { get; set; }
+        public bool AllowEmergy { get; set; }
         public string LockCode { get; set; }
         public int UserId { get; set; }
     }
