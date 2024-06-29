@@ -9,5 +9,7 @@ namespace Services.NetCore.Application.Services.UserAppServices
         Task<Response> CreateOrUpdateUserAsync(UserRequest request);
         Task<Response> RemoveUserAsync(DeleteUserRequest deleteUserRequest);
         Task<UserResponse> GetUsersAsync(string searchValue = null);
+        Task<UserResponse> GetUserAsync(string userName = null);
+        Task<UserResponse> UpdatePassword(AuthenticateUserRequest request);
     }
 }

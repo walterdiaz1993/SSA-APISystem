@@ -1,4 +1,7 @@
 ﻿using Services.NetCore.Crosscutting.Core;
+using Services.NetCore.Crosscutting.Dtos.Account;
+using Services.NetCore.Crosscutting.Dtos.SecurityManagement;
+using Services.NetCore.Crosscutting.Dtos.UserDto;
 
 namespace Services.NetCore.Crosscutting.Dtos.Residence
 {
@@ -16,5 +19,15 @@ namespace Services.NetCore.Crosscutting.Dtos.Residence
         public string Block { get; set; }
         public string HouseNumber { get; set; }
         public string Color { get; set; }
+        public UserByResidence Users { get; set; }
+    }
+
+    public class UserByResidence
+    {
+        public int Id { get; set; }
+        public string FullName { get; set; }
+        public string Block { get; set; }
+        public string HouseNumber { get; set; }
+      
     }
 }

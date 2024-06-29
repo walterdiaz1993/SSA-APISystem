@@ -43,11 +43,29 @@ namespace Services.NetCore.WebApi.Controllers.User
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("get-user")]
+        public async Task<IActionResult> GetUser([FromQuery] string userName = null)
+        {
+            var response = await _userAppService.GetUserAsync(userName);
+
+            return Ok(response);
+        }
+
         [HttpDelete]
         [Route("remove-user")]
         public async Task<IActionResult> RemoveUser(DeleteUserRequest deleteUserRequest)
         {
             var response = await _userAppService.RemoveUserAsync(deleteUserRequest);
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("update-password")]
+        public async Task<IActionResult> UpdatePassword(AuthenticateUserRequest request)
+        {
+            var response = await _userAppService.UpdatePassword(request);
 
             return Ok(response);
         }

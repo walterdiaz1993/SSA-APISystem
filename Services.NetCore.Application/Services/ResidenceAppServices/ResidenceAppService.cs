@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Services.NetCore.Application.Core;
 using Services.NetCore.Crosscutting.Core;
+using Services.NetCore.Crosscutting.Dtos.Account;
 using Services.NetCore.Crosscutting.Dtos.Residence;
+using Services.NetCore.Domain.Aggregates.AccountAgg;
 using Services.NetCore.Domain.Aggregates.ResidenceAgg;
+using Services.NetCore.Domain.Aggregates.UserAgg;
 using Services.NetCore.Domain.Core;
 using Services.NetCore.Infraestructure.Core;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
@@ -55,7 +58,7 @@ namespace Services.NetCore.Application.Services.ResidenceAppServices
             if (!string.IsNullOrEmpty(searchValue))
             {
                 var residentialId = Convert.ToInt32(searchValue);
-                residences = residentialId > 0 ? await _repository.GetFilteredAsync<Residence>(r => r.ResidentialId == residentialId) : 
+                residences = residentialId > 0 ? await _repository.GetFilteredAsync<Residence>(r => r.ResidentialId == residentialId) :
                                                 await _repository.GetFilteredAsync<Residence>(r => r.Name.Contains(searchValue) ||
                                                                                r.ResidentialName.Contains(searchValue));
             }
@@ -65,7 +68,25 @@ namespace Services.NetCore.Application.Services.ResidenceAppServices
             }
 
             var residenceDtos = _mapper.Map<List<ResidenceDto>>(residences);
+            List<int> residencesIds = residenceDtos.Select(x => x.Id).ToList();
 
+            var accounts = await _repository.GetFilteredAsync<Account>(x => residencesIds.Contains(x.ResidenceId));
+            var accountDto = _mapper.Map<List<AccountDto>>(accounts);
+            foreach (var item in residenceDtos)
+            {
+                var account = accountDto.FirstOrDefault(x => x.ResidenceId == item.Id);
+                if (account != null)
+                {
+
+                    item.Users = new UserByResidence()
+                    {
+                        Block = account.Block,
+                        HouseNumber = account.HouseNumber,
+                        FullName = account.FullName,
+                        Id = account.Id,
+                    };
+                }
+            }
             return new ResidenceResponse { Success = true, Residences = residenceDtos };
         }
 

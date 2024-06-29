@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using Services.NetCore.Application.Core;
 using Services.NetCore.Application.Services.SecurityManagementAppServices;
 using Services.NetCore.Crosscutting.Core;
@@ -29,7 +30,7 @@ namespace Services.NetCore.Application.Services.UserAppServices
             string username = request.UserName;
             string password = AESEncryptor.Encrypt(request.Password);
 
-            var user = await _repository.GetSingleAsync<User>(x => x.UserName == username && x.Password == password);
+            var user = await _repository.GetSingleAsync<User>(x => x.UserName == username && x.Password == password, new List<string> { "Accounts" });
 
             if (user == null)
             {
@@ -113,6 +114,38 @@ namespace Services.NetCore.Application.Services.UserAppServices
             var userDtos = _mapper.Map<List<UserDto>>(users);
 
             return new UserResponse { Success = true, Users = userDtos };
+        }
+
+        public async Task<UserResponse> GetUserAsync(string userName = null)
+        {
+            User user = await _repository.GetSingleAsync<User>(u => u.UserName == userName);
+
+            if (user == null)
+            {
+                return new UserResponse { ValidationErrorMessage = "Ususario no existe" };
+            }
+
+            var userDtos = _mapper.Map<UserDto>(user);
+
+            return new UserResponse { Success = true, User = userDtos };
+        }
+
+        public async Task<UserResponse> UpdatePassword(AuthenticateUserRequest request)
+        {
+            User user = await _repository.GetSingleAsync<User>(u => u.UserName == request.UserName);
+
+            if (user == null)
+            {
+                return new UserResponse { ValidationErrorMessage = "Ususario no existe" };
+            }
+            user.Password = AESEncryptor.Encrypt(request.Password);
+
+            _repository.Update(user);
+            TransactionInfo transactionInfo = TransactionInfoFactory.CreateTransactionInfo(request.RequestUserInfo, Transactions.UpdatePassword);
+
+            await _repository.UnitOfWork.CommitAsync(transactionInfo);
+
+            return new UserResponse { Success = true };
         }
 
         public async Task<Response> RemoveUserAsync(DeleteUserRequest deleteUserRequest)

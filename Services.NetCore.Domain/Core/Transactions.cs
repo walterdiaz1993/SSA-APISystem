@@ -35,5 +35,6 @@
         public const string CreateInvoice = nameof(CreateInvoice);
         public const string UpdateInvoice = nameof(UpdateInvoice);
         public const string DeleteInvoice = nameof(DeleteInvoice);
+        public const string UpdatePassword = nameof(UpdatePassword);
     }
 }
