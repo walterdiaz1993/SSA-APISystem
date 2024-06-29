@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240628012443_se_agrego_id_de_residencia")]
+    partial class se_agrego_id_de_residencia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -410,9 +413,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Block")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Comments")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -421,16 +421,10 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Customer")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("DepositNo")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("HouseNumber")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("InvoiceDate")
                         .HasColumnType("datetime2");
@@ -448,9 +442,6 @@ namespace Services.NetCore.WebApi.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("ResidenceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ResidentialId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")
@@ -481,9 +472,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Block")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Comments")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -492,16 +480,10 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Customer")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("DepositNo")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("HouseNumber")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -522,9 +504,6 @@ namespace Services.NetCore.WebApi.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("ResidenceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ResidentialId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")

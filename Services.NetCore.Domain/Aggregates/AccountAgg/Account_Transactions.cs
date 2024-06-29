@@ -32,8 +32,9 @@ namespace Services.NetCore.Domain.Aggregates.AccountAgg
 
         [StringLength(20), Required]
         public string HouseNumber { get; set; }
-        public int? ResidentialId { get; set; }
-        public bool? AllowEmergy { get; set; }
+        public int ResidentialId { get; set; }
+        public int ResidenceId { get; set; }
+        public bool AllowEmergy { get; set; }
 
         [StringLength(50)]
         public string LockCode { get; set; }

@@ -53,6 +53,9 @@ namespace Services.NetCore.Application.Services.InvoiceAppServices
                 invoice.Total = invoiceRequest.Invoice.Total;
                 invoice.InvoiceDate = invoiceRequest.Invoice.InvoiceDate;
                 invoice.ResidenceId = invoiceRequest.Invoice.ResidenceId;
+                invoice.Customer = invoiceRequest.Invoice.Customer;
+                invoice.Block = invoiceRequest.Invoice.Block;
+                invoice.HouseNumber = invoiceRequest.Invoice.HouseNumber;
                 invoice.Total = invoiceRequest.Invoice.InvoiceDetail.Sum(x => x.Amount);
                 invoice.InvoiceDetail = invoiceRequest.Invoice.InvoiceDetail.Select(x =>
                 new InvoiceDetail

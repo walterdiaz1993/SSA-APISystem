@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Services.NetCore.Domain.Core;
