@@ -1,9 +1,11 @@
 ﻿using Services.NetCore.Crosscutting.Core;
 using Services.NetCore.Crosscutting.Dtos.Invoice;
 using Services.NetCore.Crosscutting.Dtos.PaymentType;
+using Services.NetCore.Crosscutting.Dtos.ResidencePayment;
 using Services.NetCore.Domain.Aggregates.InvoiceAgg;
 using Services.NetCore.Domain.Aggregates.InvoiceDetailAgg;
 using Services.NetCore.Domain.Aggregates.PaymentTypeAgg;
+using Services.NetCore.Domain.Aggregates.ResidencePaymentAgg;
 using Services.NetCore.Domain.Core;
 
 namespace Services.NetCore.Infraestructure.Mapping.Payment
@@ -18,6 +20,9 @@ namespace Services.NetCore.Infraestructure.Mapping.Payment
             CreateMap<InvoiceDto, Invoice>();
             CreateMap<InvoiceDetail, InvoiceDetailDto>();
             CreateMap<InvoiceDetailDto, InvoiceDetail>();
+            CreateMap<ResidencePayment, ResidencePaymentDto>();
+            CreateMap<ResidencePaymentDto, ResidencePayment>();
+
         }
     }
 }

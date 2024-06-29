@@ -76,7 +76,6 @@ namespace Services.NetCore.Application.Services.UserAppServices
                     ResidentialId = x.ResidentialId,
                     AllowEmergy = x.AllowEmergy,
                     LockCode = x.LockCode,
-                    UserId = x.UserId,
                     Email = x.Email,
                 }).ToList();
 
