@@ -23,6 +23,9 @@ namespace Services.NetCore.Domain.Aggregates.InvoiceAgg
         public decimal Total { get; set; }
         public int ResidenceId { get; set; }
         public DateTime InvoiceDate { get; set; }
+        public string Customer { get; set; }
+        public string Block { get; set; }
+        public string HouseNumber { get; set; }
 
         public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }
     }

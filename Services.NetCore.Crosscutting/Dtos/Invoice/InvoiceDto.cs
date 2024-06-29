@@ -12,6 +12,9 @@ namespace Services.NetCore.Crosscutting.Dtos.Invoice
         public string InvoiceNo { get; set; }
         public string DepositNo { get; set; }
         public int AccountId { get; set; }
+        public string Customer { get; set; }
+        public string Block { get; set; }
+        public string HouseNumber { get; set; }
         public string Comments { get; set; }
         public decimal Total { get; set; }
         public int ResidenceId { get; set; }
