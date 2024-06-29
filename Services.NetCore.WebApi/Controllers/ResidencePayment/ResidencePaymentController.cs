@@ -16,10 +16,27 @@ namespace Services.NetCore.WebApi.Controllers.ResidencePayment
             _residencePaymentAppService = residencePaymentAppService;
         }
 
+
+        [HttpGet, Route("")]
+        public async Task<IActionResult> GetResidencePaymentByResidenceId([FromQuery] int residenceId)
+        {
+            var response = await _residencePaymentAppService.GetResidencePayments(residenceId);
+
+            return Ok(response);
+        }
+
         [HttpPost, Route("create-residence-payment")]
         public async Task<IActionResult> CreateResidencePayment(CreateResidencePaymentRequest createResidencePaymentRequest)
         {
             var response = await _residencePaymentAppService.CreateResidencePayment(createResidencePaymentRequest);
+
+            return Ok(response);
+        }
+
+        [HttpDelete, Route("delete-residence-payment")]
+        public async Task<IActionResult> DeleteResidencePayment(DeleteResidencePaymentRequest deleteResidencePaymentRequest)
+        {
+            var response = await _residencePaymentAppService.DeleteResidencePayment(deleteResidencePaymentRequest);
 
             return Ok(response);
         }

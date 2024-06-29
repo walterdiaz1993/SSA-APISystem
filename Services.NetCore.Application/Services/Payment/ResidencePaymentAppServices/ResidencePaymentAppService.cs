@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Azure.Core;
 using Services.NetCore.Application.Core;
 using Services.NetCore.Crosscutting.Core;
 using Services.NetCore.Crosscutting.Dtos.ResidencePayment;
@@ -49,14 +50,30 @@ namespace Services.NetCore.Application.Services.Payment.ResidencePaymentAppServi
 
         }
 
-        public Task<Response> DeleteResidencePayment(DeleteResidencePaymentRequest deleteResidencePaymentRequest)
+        public async Task<Response> DeleteResidencePayment(DeleteResidencePaymentRequest deleteResidencePaymentRequest)
         {
-            throw new NotImplementedException();
+            ThrowIf.Argument.IsNull(deleteResidencePaymentRequest, nameof(deleteResidencePaymentRequest));
+            ThrowIf.Argument.IsZeroOrNegative(deleteResidencePaymentRequest.Id, nameof(deleteResidencePaymentRequest.Id));
+
+            var residencePayment = await _repository.GetSingleAsync<ResidencePayment>(x => x.Id == deleteResidencePaymentRequest.Id);
+
+            if (residencePayment == null) return new Response { Success = false, ValidationErrorMessage = $"El registro con el Id {deleteResidencePaymentRequest.Id} que quiere eliminar no existe" };
+
+            await _repository.RemoveAsync(residencePayment);
+            TransactionInfo transactionInfo = TransactionInfoFactory.CreateTransactionInfo(deleteResidencePaymentRequest.RequestUserInfo, Transactions.DeleteResidencePayment);
+
+            await _repository.UnitOfWork.CommitAsync(transactionInfo);
+
+            return new Response { Success = true };
         }
 
-        public Task<ResidencePaymentResponse> GetResidencePayments(int residenceId)
+        public async Task<ResidencePaymentResponse> GetResidencePayments(int residenceId)
         {
-            throw new NotImplementedException();
+            var residencePayments = await _repository.GetFilteredAsync<ResidencePayment>(x => x.ResidenceId == residenceId, asNoTracking: true);
+
+            var residencePaymentsDto = _mapper.Map<List<ResidencePaymentDto>>(residencePayments);
+
+            return new ResidencePaymentResponse { ResidencePayments = residencePaymentsDto };
         }
     }
 }
